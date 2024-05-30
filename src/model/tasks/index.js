@@ -2,7 +2,7 @@ import { query } from "../../core/database-manager/postgres-service.js";
 
 export async function getAllDataQuery() {
   const sqlQuery = `select * from public.tasks`;
-  return query(sqlQuery);
+  return (await query(sqlQuery)).rows;
 }
 
 export async function getDataQuery(taskId) {

@@ -1,15 +1,12 @@
 import { query } from "./core/database-manager/postgres-service.js";
-import { checkCompleted } from "./model/tasks/index.js";
+import {
+  getAllDataQuery,
+  insertData,
+  getDataQuery,
+  checkCompleted,
+} from "./model/tasks/index.js";
 
-// const a = `select * from public.tasks`;
-
-// const sqlQuery = await query(a);
-
-// console.log(sqlQuery.rows);
-
-const res = await checkCompleted("adasdads");
-
-console.log(res);
+console.log(await getAllDataQuery());
 
 // const app = express();
 // const port = 5000;
