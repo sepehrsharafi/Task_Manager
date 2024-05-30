@@ -1,3 +1,6 @@
+import express from "express";
+import cors from "cors";
+
 import { query } from "./core/database-manager/postgres-service.js";
 import {
   getAllDataQuery,
@@ -6,15 +9,25 @@ import {
   checkCompleted,
 } from "./model/tasks/index.js";
 
-console.log(await getAllDataQuery());
+const data = await getAllDataQuery();
 
-// const app = express();
-// const port = 5000;
+console.log();
 
-// app.get("/", (req, res) => {
-//   res.send("Hello World!");
-// });
+const app = express();
+const port = 3000;
 
-// app.listen(port, () => {
-//   console.log(`Example app listening on port ${port}`);
-// });
+// Configure CORS middleware
+app.use(
+  cors({
+    origin: "http://127.0.0.1:5500", // Allow requests from this origin
+    credentials: true,
+  })
+);
+
+app.get("/api/tasks", (req, res) => {
+  res.send(data);
+});
+
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`);
+});
