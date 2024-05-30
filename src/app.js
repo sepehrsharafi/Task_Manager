@@ -14,7 +14,7 @@ const data = await getAllDataQuery();
 console.log();
 
 const app = express();
-const port = 3000;
+const port = 3300;
 
 // Configure CORS middleware
 app.use(
