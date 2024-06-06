@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
+import { router as tasksRouter } from "./routes/tasks/index.js";
 
-import { query } from "./core/database-manager/postgres-service.js";
 import {
   getAllDataQuery,
   insertData,
@@ -9,12 +9,12 @@ import {
   checkCompleted,
 } from "./model/tasks/index.js";
 
-const data = await getAllDataQuery();
-
-console.log();
+// const data = await getAllDataQuery();
 
 const app = express();
 const port = 3300;
+
+app.use(tasksRouter);
 
 // Configure CORS middleware
 app.use(
@@ -24,9 +24,11 @@ app.use(
   })
 );
 
-app.get("/api/tasks", (req, res) => {
-  res.send(data);
-});
+// app.use("/", express.static(process.cwd() + "/public"));
+
+// app.get("/api/tasks", (req, res) => {
+//   res.send(data);
+// });
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);

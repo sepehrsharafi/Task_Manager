@@ -8,7 +8,7 @@ export async function getAllDataQuery() {
 export async function getDataQuery(taskId) {
   const sqlQuery = `select * from public.tasks WHERE id = $1`;
   const variable = [taskId];
-  return query(sqlQuery, variable);
+  return (await query(sqlQuery, variable)).rows;
 }
 
 export async function insertData(title, description, is_completed) {
