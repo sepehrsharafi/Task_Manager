@@ -1,7 +1,10 @@
 import { query } from "../../core/database-manager/postgres-service.js";
 
 export async function getAllDataQuery() {
-  const sqlQuery = `select * from public.tasks`;
+  const sqlQuery = `
+  SELECT * FROM tasks
+  ORDER BY id ASC;
+`;
   return (await query(sqlQuery)).rows;
 }
 
@@ -22,18 +25,53 @@ export async function insertData(title, description, is_completed) {
 export async function checkCompleted(title) {
   const sqlQuery = `UPDATE tasks
     SET is_completed = true
-    WHERE title = $1;
+    WHERE id = $1;
     `;
   const variable = [title];
   return query(sqlQuery, variable);
 }
 
 export async function updateData(id, title, description) {
+  if (title == null) {
+    const sqlQuery = `
+    UPDATE tasks
+    SET description = $1
+    WHERE id = $2;
+  `;
+    const variables = [description, id];
+    return query(sqlQuery, variables);
+  }
+  if (description == null) {
+    const sqlQuery = `
+    UPDATE tasks
+    SET title = $1
+    WHERE id = $2;
+  `;
+    const variables = [title, id];
+    return query(sqlQuery, variables);
+  }
+}
+
+export async function deleteData(id) {
+  const sqlQuery = `
+    DELETE FROM tasks
+    WHERE id = $1;
+  `;
+  const variables = [id];
+  return query(sqlQuery, variables);
+}
+
+export async function deleteAllData() {
+  const sqlQuery = `
+    TRUNCATE TABLE tasks;
+  `;
+  return query(sqlQuery);
+}
+
+export async function markAllAsCompleted() {
   const sqlQuery = `
     UPDATE tasks
-    SET title = $1, description = $2
-    WHERE id = $3;
+    SET is_completed = true;
   `;
-  const variables = [title, description, id];
-  return query(sqlQuery, variables);
+  return query(sqlQuery);
 }

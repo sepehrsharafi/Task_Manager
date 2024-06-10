@@ -1,10 +1,15 @@
 import express from "express";
 const router = express.Router();
+
 import {
   getAllDataQuery,
   insertData,
   getDataQuery,
   checkCompleted,
+  updateData,
+  deleteData,
+  deleteAllData,
+  markAllAsCompleted,
 } from "../../model/tasks/index.js";
 
 router.use("/", express.static(process.cwd() + "/public"));
@@ -24,9 +29,31 @@ router.post("/api/tasks", (req, res) => {
   res.json(reqBody);
 });
 
-router.put("/api/tasks/:id", async (req, res) => {
-  const getID = req.params.id;
+router.post("/api/tasks/:id", async (req, res) => {
+  const rowId = req.params.id;
   const reqBody = req.body;
+  updateData(rowId, reqBody.title, reqBody.description);
+  res.json(reqBody);
+});
+
+router.delete("/api/tasks/:id", async (req, res) => {
+  const rowId = req.params.id;
+  deleteData(rowId);
+  res.send(rowId);
+});
+
+router.delete("/api/tasks", async (req, res) => {
+  res.send(deleteAllData());
+});
+
+router.put("/api/tasks/checked/:id", (req, res) => {
+  const rowId = req.params.id;
+  checkCompleted(rowId);
+  res.send(rowId);
+});
+
+router.put("/api/tasks", async (req, res) => {
+  res.send(markAllAsCompleted());
 });
 
 export { router };
