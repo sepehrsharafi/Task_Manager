@@ -18,6 +18,15 @@ router.get("/api/tasks/:id", async (req, res) => {
   res.json(data);
 });
 
-router.post("/api/tasks", (req, res) => {});
+router.post("/api/tasks", (req, res) => {
+  const reqBody = req.body;
+  insertData(reqBody.title, reqBody.description, reqBody.is_completed);
+  res.json(reqBody);
+});
+
+router.put("/api/tasks/:id", async (req, res) => {
+  const getID = req.params.id;
+  const reqBody = req.body;
+});
 
 export { router };

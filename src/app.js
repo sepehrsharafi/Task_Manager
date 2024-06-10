@@ -14,6 +14,8 @@ import {
 const app = express();
 const port = 3300;
 
+app.use(express.json());
+
 app.use(tasksRouter);
 
 // Configure CORS middleware

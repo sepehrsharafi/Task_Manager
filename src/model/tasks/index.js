@@ -27,3 +27,13 @@ export async function checkCompleted(title) {
   const variable = [title];
   return query(sqlQuery, variable);
 }
+
+export async function updateData(id, title, description) {
+  const sqlQuery = `
+    UPDATE tasks
+    SET title = $1, description = $2
+    WHERE id = $3;
+  `;
+  const variables = [title, description, id];
+  return query(sqlQuery, variables);
+}
